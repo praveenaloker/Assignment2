@@ -1,6 +1,7 @@
 const express = require("express");
 const multer = require("multer");
 const path = require("path");
+const fs = require("fs");
 const app = express();
 
 var bodyParser = require('body-parser');            // pagination 
@@ -99,10 +100,21 @@ app.post("/videoupload", function (req, res, next) {
 
 //******IMAGE-VIDEO DOWNLOAD******//
 app.get('/download/:file(*)',(req, res) => {
-    var file = req.params.file;
-    var fileLocation = path.join('./upload/images',file);
-    console.log(fileLocation);
-    res.download(fileLocation,file);
+  var file = req.params.file;
+  const filePath = `./upload/images/${file}`;
+  try{                                                      //error handling
+    if (fs.existsSync(filePath)){
+      var fileLocation = path.join('./upload/images',file);
+      //console.log(fileLocation);
+      res.download(fileLocation,file);
+    }else{
+      res.status(404).json({
+        message: "File name does not exist"
+      });
+    }
+  }catch(err){
+    console.error(err);
+  }
 });
 //******IMAGE-VIDEO DOWNLOAD******//
 

@@ -16,7 +16,13 @@ module.exports = (sequelize, Sequelize) => {
 	  },
 	  age: {
 			type: Sequelize.INTEGER
-      },
+	  },
+	//   email: {
+	// 	type: Sequelize.email
+	//   },
+	//   password: {
+	// 	type: Sequelize.password
+    //   },
 	  });
 	
 	return Customer;
